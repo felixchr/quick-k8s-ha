@@ -1,0 +1,5 @@
+---
+# defaults file for k8s
+
+docker_ce_gpg_key: https://download.docker.com/linux/ubuntu/gpg
+

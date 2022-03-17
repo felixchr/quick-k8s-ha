@@ -1,0 +1,54 @@
+---
+- name: remove old packages
+  apt:
+    state: absent
+    pkg:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd 
+      - runc
+
+- name: set docker repository
+  copy:
+    src: files/docker-ce.list
+    dest: /etc/apt/sources.list.d/
+
+- name: install dependencies
+  apt:
+    update_cache: yes
+    state: latest
+    pkg:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+
+- name: import GPG key
+  apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    url: {{docker_ce_gpg_key}}
+    state: present
+  
+- name: install docker-ce
+  apt:
+    update_cache: yes
+    state: latest
+    pkg:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: configure daemon.json for docker
+  copy:
+    src: files/docker-daemon.json
+    dest: /etc/docker/daemon.json
+
+- name: restart docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+
+...

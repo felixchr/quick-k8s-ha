@@ -1,0 +1,17 @@
+---
+# tasks file for k8s
+- name: "Install docker support"
+  import_tasks: docker_install.yml
+  tags:
+    - docker
+
+- name: "Install and configure load balancer"
+  import_tasks: loadbalancer.yml
+  when: role == "master"
+  tags:
+    - loadbalancer
+
+- name: "Install kubernetes"
+  import_tasks: k8s_install.yml
+  tags:
+    - k8s

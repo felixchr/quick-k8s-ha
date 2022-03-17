@@ -1,0 +1,6 @@
+---
+- hosts: sat_k8s
+  become: yes
+  roles:
+    - role: k8s
+...

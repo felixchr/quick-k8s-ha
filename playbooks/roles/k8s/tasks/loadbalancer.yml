@@ -1,0 +1,24 @@
+---
+- name: install keepalived and haproxy
+  apt:
+    state: present
+    pkg:
+      - keepalived
+      - haproxy
+
+- name: upload keepalived configuration
+  template:
+    src: keepalived.conf
+    dest: /etc/keepalived/keepalived.conf
+
+- name: upload script for check_apiserver.sh
+  template:
+    src: check_apiserver.sh
+    dest: /etc/keepalived/check_apiserver.sh
+    mode: 0755
+
+- name: upload haproxy configuration
+  template:
+    src: haproxy.cfg
+    dest: /etc/haproxy/haproxy.cfg
+
